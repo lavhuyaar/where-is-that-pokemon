@@ -10,7 +10,7 @@ const options: { id: number; name: string }[] = [
 const Game = () => {
   const [markers, setMarkers] = useState<
     { positionX: number; positionY: number; isAccurate: boolean }[]
-  >([]); //This markers are placed when user clicks on canvas (image)
+  >([]); //These markers are placed when user clicks on canvas (image)
 
   //Places marker on the image
   const placeMarker = (positionX: number, positionY: number) => {
@@ -34,8 +34,7 @@ const Game = () => {
   return (
     <>
       <main className="relative overflow-auto">
-        {markers &&
-          markers.length > 0 &&
+        {markers.length > 0 &&
           markers.map((marker, index) => (
             <div key={index}>
               <div
