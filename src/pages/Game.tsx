@@ -4,6 +4,7 @@ import usePokemons from "../hooks/usePokemonOptions";
 import PokemonMenu from "../components/PokemonMenu";
 import Markers from "../components/Markers";
 import Loading from "../components/Loading";
+import Timer from "../components/Timer";
 
 const Game = () => {
   const [isPokemonVerifying, setIsPokemonVerifying] = useState<boolean>(false);
@@ -31,6 +32,8 @@ const Game = () => {
   return (
     <>
       <PokemonMenu />
+
+      <Timer />
 
       <main className="relative overflow-auto">
         <Markers setIsPokemonVerifying={setIsPokemonVerifying} />
