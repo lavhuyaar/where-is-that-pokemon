@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const axiosClient = axios.create({
+const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
   timeout: 1000,
 });
 
-export default axiosClient;
+export default axiosInstance;

@@ -1,76 +1,44 @@
 import React, { useState } from "react";
-
-// Dummy options
-const options: { id: number; name: string }[] = [
-  { id: 1, name: "Option1" },
-  { id: 2, name: "Option2" },
-  { id: 3, name: "Option3" },
-];
+import useMarker from "../hooks/useMarker";
+import usePokemons from "../hooks/usePokemonOptions";
+import PokemonMenu from "../components/PokemonMenu";
+import Markers from "../components/Markers";
+import Loading from "../components/Loading";
 
 const Game = () => {
-  const [markers, setMarkers] = useState<
-    { positionX: number; positionY: number; isAccurate: boolean }[]
-  >([]); //These markers are placed when user clicks on canvas (image)
+  const [isPokemonVerifying, setIsPokemonVerifying] = useState<boolean>(false);
 
-  //Places marker on the image
-  const placeMarker = (positionX: number, positionY: number) => {
-    setMarkers((prev) => {
-      const updatedData = prev.filter((d) => d.isAccurate === true); //Ensures that only valid markers are remaining on image
-      return [...updatedData, { positionX, positionY, isAccurate: false }]; //Adds a temporary marker to image, allowing user to choose one of the options
-    });
-  };
+  const { placeMarker } = useMarker();
+  const { loading } = usePokemons();
 
-  const canvasOnClick = (
+  const imageOnClick = (
     event: React.MouseEvent<HTMLCanvasElement, MouseEvent>
   ) => {
+    if (loading || isPokemonVerifying) return;
+
     const canvas = event.target as HTMLCanvasElement; //Gets the canvas element
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const positionX = event.clientX - rect.left;
+    const positionY = event.clientY - rect.top;
     //Gets User click's position and marks it (creates a red marker there with options to choose)
-    placeMarker(x, y);
+    placeMarker(positionX, positionY);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
+      <PokemonMenu />
+
       <main className="relative overflow-auto">
-        {markers.length > 0 &&
-          markers.map((marker, index) => (
-            <div key={index}>
-              <div
-                className={`absolute size-[60px] z-999 border-6  ${
-                  marker?.isAccurate === true
-                    ? "border-green-600 bg-green-300/50"
-                    : "border-red-600"
-                }`}
-                style={{
-                  left: marker?.positionX - 20,
-                  top: marker?.positionY - 20,
-                }}
-              />
-              {/* List of clickable options only appear after trying to mark a pokemon */}
-              {!marker.isAccurate && (
-                <div
-                  className=" flex flex-col !p-3 gap-2 absolute z-999 bg-red-600"
-                  style={{
-                    left: marker?.positionX + 60,
-                    top: marker?.positionY - 20,
-                  }}
-                >
-                  {options.map((o) => (
-                    <li className="list-none" key={o.id}>
-                      {o.name}
-                    </li>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        <Markers setIsPokemonVerifying={setIsPokemonVerifying} />
 
         {/* Pokemons image */}
         <canvas
-          onClick={(e) => canvasOnClick(e)}
-          className="bg-[url(/images/pokemons.jpg)] relative w-[1600px] h-[2300px]"
+          onClick={(e) => imageOnClick(e)}
+          className="bg-[url(/images/pokemons.jpg)] relative w-[1600px] h-[2300px] cursor-pointer"
         ></canvas>
       </main>
     </>

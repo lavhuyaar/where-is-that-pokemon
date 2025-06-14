@@ -11,19 +11,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url('/images/pokemons-wallpaper.png');
+  background-size: cover;
+  background-position: center;
 }
 
-/* main {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
 }
 
-.pokemons-canvas {
-  background-image: url("/public/images/pokemons.jpg");
-  position: relative;
-  width: 100%;
-  height: 2300px;
-  border: 10px solid black;
-  background-repeat: none;
-} */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
