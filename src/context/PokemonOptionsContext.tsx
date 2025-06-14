@@ -6,6 +6,7 @@ import React, {
   type SetStateAction,
 } from "react";
 import axiosInstance from "../api/axiosInstance";
+import handleAxiosError from "../utils/handleAxiosError";
 
 interface Pokemon {
   id: string;
@@ -36,7 +37,7 @@ export const PokemonOptionsProvider = ({
   const [pokemons, setPokemons] = useState<Pokemon[] | null>(null);
   const [options, setOptions] = useState<PokemonOption[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const getPokemons = async () => {
@@ -45,7 +46,12 @@ export const PokemonOptionsProvider = ({
         const response = await axiosInstance.get("/pokemons");
         setPokemons(response.data?.pokemons);
       } catch (err) {
-        console.error(err);
+        handleAxiosError(
+          err,
+          "An error occured in fetching Pokemons!",
+          setError,
+          true
+        );
       } finally {
         setLoading(false);
       }

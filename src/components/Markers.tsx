@@ -1,7 +1,9 @@
 import type { SetStateAction } from "react";
-import axiosInstance from "../api/axiosInstance";
+import { toast } from "react-toastify";
 import useMarker from "../hooks/useMarker";
 import usePokemonOptions from "../hooks/usePokemonOptions";
+import axiosInstance from "../api/axiosInstance";
+import handleAxiosError from "../utils/handleAxiosError";
 
 interface MarkerProps {
   setIsPokemonVerifying: React.Dispatch<SetStateAction<boolean>>;
@@ -24,8 +26,9 @@ const Markers = ({ setIsPokemonVerifying }: MarkerProps) => {
     }
 
     setIsPokemonVerifying(true);
+    toast.loading("Checking position...");
     try {
-      await axiosInstance.post(`/pokemon/verify/${id}`, {
+      const response = await axiosInstance.post(`/pokemon/verify/${id}`, {
         positionX,
         positionY,
       });
@@ -37,8 +40,10 @@ const Markers = ({ setIsPokemonVerifying }: MarkerProps) => {
           p.id === id ? { ...p, isCorrectlyMarked: true } : { ...p }
         )
       );
+      toast.dismiss();
+      toast.success(response?.data?.message, { autoClose: 2000 });
     } catch (err) {
-      console.error(err);
+      handleAxiosError(err, "Inaccurate position of Pokemon!");
       //API call with inaccurate positions removes the red marker
       setMarkers((prev) => prev.filter((m) => m.isAccurate === true));
     } finally {
@@ -65,7 +70,7 @@ const Markers = ({ setIsPokemonVerifying }: MarkerProps) => {
             {/* List of clickable options only appear after trying to mark a pokemon */}
             {!marker.isAccurate && (
               <div
-                className=" flex flex-col !p-3 gap-2 absolute z-999 bg-red-600"
+                className=" flex flex-col flex-wrap min-w-[150px] rounded-xl bg-amber-300 !p-3 gap-2 absolute z-999"
                 style={{
                   left: marker?.positionX + 60,
                   top: marker?.positionY - 20,
@@ -91,9 +96,9 @@ const Markers = ({ setIsPokemonVerifying }: MarkerProps) => {
                       <img
                         src={option?.image}
                         alt=""
-                        className=" size-[40px] object-center object-cover"
+                        className=" size-[40px] rounded-lg object-center object-cover"
                       />
-                      {option?.name}
+                      <h5 className="text-lg">{option?.name}</h5>
                     </li>
                   ))}
               </div>

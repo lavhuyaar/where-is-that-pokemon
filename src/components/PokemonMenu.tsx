@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { MdOutlineCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";
 import usePokemonOptions from "../hooks/usePokemonOptions";
 
-const PokemonMenu = () => {
+const PokemonMenu = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { options } = usePokemonOptions();
 
@@ -12,10 +12,10 @@ const PokemonMenu = () => {
     <>
       {options.length > 0 && (
         <div
-          className="fixed z-9999 top-[5%] left-[10%] bg-red-500 !p-3 flex flex-col gap-3"
+          className="fixed z-9999 top-[5%] left-[10%] bg-amber-300 !p-3 flex flex-col gap-3"
           onClick={toggleMenu}
         >
-          <h4 className="font-bold flex gap-2 items-center cursor-pointer">
+          <h4 className="font-bold flex gap-2 items-center cursor-pointer text-xl sm:text-3xl">
             Find Us!{" "}
             {isMenuOpen ? (
               <MdOutlineCloseFullscreen />
@@ -45,5 +45,5 @@ const PokemonMenu = () => {
       )}
     </>
   );
-};
+});
 export default PokemonMenu;
