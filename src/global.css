@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Jersey+15&display=swap");
 @import "tailwindcss";
 
 * {
@@ -11,9 +12,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('/images/pokemons-wallpaper.png');
+  background-image: url("/images/pokemons-wallpaper.png");
   background-size: cover;
   background-position: center;
+  font-family: "Jersey 15", sans-serif;
 }
 
 .loader {
