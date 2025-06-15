@@ -64,7 +64,7 @@ const Leaderboard = memo(() => {
         <h1 className="text-3xl sm:text-5xl text-bold text-gray-600 text-center">
           Leaderboard
         </h1>
-        {data.length > 0 && (
+        {data.length > 0 ? (
           <div className="grid grid-cols-3 sm:text-center sm:!p-3">
             <h3 className="row-span-1 col-span-1 !mb-10 !mt-16 text-xl md:text-4xl leading-4">
               Rank
@@ -92,6 +92,10 @@ const Leaderboard = memo(() => {
                 </li>
               </>
             ))}
+          </div>
+        ) : (
+          <div className="w-full h-4/5 text-center flex items-center justify-center">
+            <h2 className="text-xl md:text-4xl">No players found :(</h2>
           </div>
         )}
       </main>
