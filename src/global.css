@@ -41,7 +41,3 @@
     background-position: 0% 50%, 50% 50%, 100% 100%;
   }
 }
-
-::-webkit-scrollbar {
-  width: 4px;
-}

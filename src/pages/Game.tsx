@@ -22,8 +22,8 @@ const Game = () => {
     resetTimer();
     resetOptions();
     resetMarkers();
-    startTimer();
     setIsGameStarted(true);
+    if (!error) startTimer();
   };
 
   const stopGame = () => {
