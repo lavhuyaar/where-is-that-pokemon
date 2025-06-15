@@ -1,25 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router";
 import useMarker from "../hooks/useMarker";
 import usePokemons from "../hooks/usePokemonOptions";
+import useTimer from "../hooks/useTimer";
 import PokemonMenu from "../components/PokemonMenu";
 import Markers from "../components/Markers";
 import Loading from "../components/Loading";
 import Timer from "../components/Timer";
-import { NavLink } from "react-router";
-import useTimer from "../hooks/useTimer";
+import WinModal from "../components/WinModal";
 
 const Game = () => {
   const [isPokemonVerifying, setIsPokemonVerifying] = useState<boolean>(false);
   const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
+  const [isWinner, setIsWinner] = useState<boolean>(false);
 
-  const { placeMarker } = useMarker();
-  const { loading, error } = usePokemons();
-  const { startTimer } = useTimer();
+  const { placeMarker, resetMarkers } = useMarker();
+  const { loading, options, error, resetOptions } = usePokemons();
+  const { startTimer, stopTimer, resetTimer } = useTimer();
 
   const startGame = () => {
-    setIsGameStarted(true);
+    resetTimer();
+    resetOptions();
+    resetMarkers();
     startTimer();
+    setIsGameStarted(true);
   };
+
+  const stopGame = () => {
+    stopTimer();
+    setIsGameStarted(false);
+  };
+
+  const resetGame = () => {
+    setIsGameStarted(false);
+    setIsWinner(false);
+    resetTimer();
+    resetOptions();
+    resetMarkers();
+  };
+
+  useEffect(() => {
+    if (options.length < 1) return;
+
+    // If all options (pokemons) are correctly marked or found by User
+    const hasWon: boolean = options.every(
+      (option) => option.isCorrectlyMarked === true
+    );
+
+    if (hasWon) {
+      stopGame();
+      setIsWinner(true);
+    } else return;
+  }, [options]);
 
   const imageOnClick = (
     event: React.MouseEvent<HTMLCanvasElement, MouseEvent>
@@ -40,7 +72,7 @@ const Game = () => {
     return <Loading />;
   }
 
-  if (!isGameStarted) {
+  if (!isGameStarted && !isWinner) {
     return (
       <>
         <main className="w-full h-screen flex flex-col items-center justify-center gap-3 !p-3">
@@ -56,6 +88,7 @@ const Game = () => {
     );
   }
 
+  // Error
   if (error) {
     return (
       <>
@@ -75,6 +108,8 @@ const Game = () => {
 
   return (
     <>
+      {isWinner && <WinModal resetGame={resetGame} />}
+
       <PokemonMenu />
 
       <Timer />

@@ -16,6 +16,7 @@ interface MarkerContextValues {
   markers: Marker[];
   setMarkers: React.Dispatch<SetStateAction<Marker[]>>;
   placeMarker: (positionX: number, positionY: number) => void;
+  resetMarkers: VoidFunction;
 }
 
 const MarkerContext = createContext<MarkerContextValues | null>(null);
@@ -35,8 +36,13 @@ export const MarkerProvider = ({ children }: { children: ReactNode }) => {
       ];
     });
   };
+
+  const resetMarkers = () => setMarkers([]);
+
   return (
-    <MarkerContext.Provider value={{ markers, setMarkers, placeMarker }}>
+    <MarkerContext.Provider
+      value={{ markers, setMarkers, placeMarker, resetMarkers }}
+    >
       {children}
     </MarkerContext.Provider>
   );

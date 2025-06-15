@@ -21,6 +21,7 @@ interface PokemonOption extends Pokemon {
 interface PokemonOptionsContextvalues {
   options: PokemonOption[];
   setOptions: React.Dispatch<SetStateAction<PokemonOption[]>>;
+  resetOptions: VoidFunction;
   loading: boolean;
   error: string | undefined;
 }
@@ -74,9 +75,22 @@ export const PokemonOptionsProvider = ({
     });
   }, [pokemons]);
 
+  const resetOptions = () => {
+    if (pokemons) {
+      setOptions(() => {
+        return pokemons.map((pokemon) => ({
+          id: pokemon?.id,
+          name: pokemon?.name,
+          image: pokemon?.image,
+          isCorrectlyMarked: false,
+        }));
+      });
+    }
+  };
+
   return (
     <PokemonOptionsContext.Provider
-      value={{ options, setOptions, loading, error }}
+      value={{ options, setOptions, resetOptions,  loading, error }}
     >
       {children}
     </PokemonOptionsContext.Provider>
