@@ -1,54 +1,38 @@
-# React + TypeScript + Vite
+# Where Is That Pokemon?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend repository of my project - Where Is That Pokemon?, which is a game to find the list of five Pokemons in an image as quickly as possible. The game is similar to the famous "Where's Waldo?" game.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tools Used :
 
-## Expanding the ESLint configuration
+- ReactJS (deployed on Vercel)
+- Typescript
+- React Router
+- TailwindCSS
+- axios
+- Vite (bundler)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### To run this project locally :
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Step 1:** Fork this repository, clone it, and open the repository in your local device (duh)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Step 2:** Install all packages by running `npm install` or `npm i`
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+**Step 3:** Create an `.env` file in the root of the repository and add a variable `VITE_BACKEND_URL=your_backend_url`
+
+**Step 4:** Start the project by running `npm run dev`
+
+And you'll be running the project!
+
+_**Note:** You must also clone the backend of this repository and add `localhost:5173` in the allowed lists in `app.ts` file (for CORS Policy)_
+
+---
+
+The frontend of this project was super cool to write. The rect method using which I'm able to get the position is something I looked from G4G (or W3Schools I don't remember), but apart from that, every logic of this project is written by me, and I'm proud of it :)
+
+I must give credits for the image I've used, the [Image](https://www.deviantart.com/viking011/art/Pokemon-Poster-436455502) I've used is created by [Viking011](https://www.deviantart.com/viking011). Do check him out for his awesome works.
+
+Overall good work Lav, before starting this project it seemed like hard but it was easy lol. (16-06-2025)
